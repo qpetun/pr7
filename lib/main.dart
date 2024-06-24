@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 // Класс для имитации загрузки данных
@@ -14,6 +16,21 @@ class DataFetcher {
     // Здесь симулируем медленную загрузку данных с задержкой в 3 секунды
     await Future.delayed(Duration(seconds: 3));
     return 'Медленная загрузка';
+  }
+  static Future<int> fetchRealData() async {
+    // Создаем массив случайных чисел
+    List<int> numbers = List.generate(1000000, (index) => Random().nextInt(1000000));
+
+    // Сортируем массив
+    numbers.sort();
+
+
+    // Возвращаем первые 5 элементов массива
+    return numbers[0];
+  }
+  static Future<String> fetchSlow() async {
+    int a = await fetchRealData();
+    return 'qwe';
   }
 }
 
@@ -49,6 +66,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// Экран главной страницы
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -102,6 +120,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+// Экран №1
 class Screen1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -154,6 +173,7 @@ class Screen1 extends StatelessWidget {
   }
 }
 
+// Экран №2
 class Screen2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -206,6 +226,7 @@ class Screen2 extends StatelessWidget {
   }
 }
 
+// Экран №3
 class Screen3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -258,6 +279,7 @@ class Screen3 extends StatelessWidget {
   }
 }
 
+// Экран №4
 class Screen4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -310,6 +332,7 @@ class Screen4 extends StatelessWidget {
   }
 }
 
+// Экран №5
 class Screen5 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -324,7 +347,7 @@ class Screen5 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             FutureBuilder(
-              future: DataFetcher.fetchFastData(),
+              future: DataFetcher.fetchSlowData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
@@ -337,7 +360,7 @@ class Screen5 extends StatelessWidget {
             ),
             SizedBox(height: 20),
             FutureBuilder(
-              future: DataFetcher.fetchSlowData(),
+              future: DataFetcher.fetchSlow(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
